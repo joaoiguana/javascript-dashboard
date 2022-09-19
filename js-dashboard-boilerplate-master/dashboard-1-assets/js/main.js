@@ -45,6 +45,22 @@ const defaultOptions = {
   dataLabels: {
     enabled: false,
   },
+  markers: {
+    size: 0,
+    colors: colorPrimary,
+    strokeColors: colorCard,
+    strokeWidth: 2,
+    strokeOpacity: 0.5,
+    strokeDashArray: 0,
+    fillOpacity: 1,
+    discrete: [],
+    shape: "circle",
+    radius: 2,
+    hover: {
+      size: undefined,
+      sizeOffset: 6,
+    },
+  },
   // states: {
   //   hover: {
   //     filter: {
@@ -331,3 +347,79 @@ const areaOptions = {
 renderChart(areaOptions, "areaChart")
 
 // Create line Chart
+const lineOptions = {
+  ...defaultOptions,
+  series: [
+    {
+      name: "Series 1",
+      data: [20, 40, 24, 78, 26, 36, 28],
+    },
+  ],
+  chart: {
+    ...defaultOptions.chart,
+    type: "area",
+    height: 240,
+  },
+  colors: [colorDefault],
+  fill: {
+    gradient: {
+      type: "vertical",
+      stops: [0, 50, 100],
+      colorStops: [
+        {
+          offset: 0,
+          color: '#fff',
+          opacity: 0.05,
+        },
+        {
+          offset: 100,
+          color: '#fff',
+          opacity: 0,
+        },
+      ]
+    },
+  },
+  grid: {
+    strokeDashArray: 3,
+    borderColor: "rgba(255, 255, 255, 0.05)",
+    padding: { left: 20, right: 20, top: 0, bottom: -8 }
+  },
+  stroke: {
+    show: true,
+    curve: 'smooth',
+    lineCap: 'butt',
+    colors: undefined,
+    width: 3,
+    dashArray: 0,
+  },
+  yaxis: {
+    min: 0,
+    max: 100,
+    labels: {
+      floating: true,
+      style: {
+        fontFamily: "Sora",
+        colors: colorLabel,
+      },
+    },
+  },
+  xaxis: {
+    labels: {
+      show: false,
+    },
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    crosshairs: {
+      stroke: {
+        color: "rgba(255, 255, 255, 0.25)",
+        width: 1,
+        dashArray: 2,
+      },
+    },
+  },
+};
+renderChart(lineOptions, "lineChart")
