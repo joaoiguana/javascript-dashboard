@@ -20,18 +20,21 @@
     />
     <link rel="stylesheet" type="text/css" href="shared-assets/css/reset.css" />
     <link
-    rel="stylesheet"
-    type="text/css"
-    href="shared-assets/css/layout.css"
+      rel="stylesheet"
+      type="text/css"
+      href="shared-assets/css/layout.css"
     />
     <link
-    rel="stylesheet"
-    type="text/css"
-    href="shared-assets/css/shared.css"
+      rel="stylesheet"
+      type="text/css"
+      href="shared-assets/css/shared.css"
     />
     <link rel="stylesheet" type="text/css" href="shared-assets/css/cards.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
 
     <link
       rel="stylesheet"
@@ -120,9 +123,9 @@
         <h2 class="card-h2 has-bottom-margin">85%</h2>
         <div id="gaugeChart"></div>
       </div>
-      <div data-aos="fade-up" class="card has-extra-padding card-avatar-list">
+      <div class="card has-extra-padding card-avatar-list">
         <header class="card-header">
-          <h3 class="card-h3">Authors Hello</h3>
+          <h3 class="card-h3">Authors</h3>
         </header>
         <ul class="avatar-list">
           <li>
@@ -155,7 +158,7 @@
           </li>
         </ul>
       </div>
-      <div data-aos="fade-up" class="card has-extra-padding card-timeline-list">
+      <div class="card has-extra-padding card-timeline-list">
         <header class="card-header">
           <h3 class="card-h3 no-bottom-margin">Activity</h3>
           <span class="card-header-icon uil uil-ellipsis-v"></span>
@@ -203,7 +206,18 @@
       <div class="card card-line-chart">
         <header class="card-header">
           <h3 class="card-h3 no-bottom-margin">Line Chart</h3>
-          <span class="card-header-icon uil uil-ellipsis-v"></span>
+          <div>
+            <button type="button" onclick="selectLineYear(this, 2021)">
+              2021
+            </button>
+            <button
+              type="button"
+              onclick="selectLineYear(this, 2022)"
+              class="active"
+            >
+              2022
+            </button>
+          </div>
         </header>
         <div id="lineChart" class="floating"></div>
       </div>

@@ -1,29 +1,27 @@
 // Get CSS Variables
-const getColorVariable = (color) => {
-  return getComputedStyle(document.documentElement)
+const getColorVariable = (color) =>
+  getComputedStyle(document.documentElement)
     .getPropertyValue(`--color-${color}`)
     .trim();
-}
 
 const colorPrimary = getColorVariable("primary"),
- colorAccent = getColorVariable("accent"),
- colorDefault = getColorVariable("default"),
- colorCard = getColorVariable("card"),
- colorLabel = getColorVariable("label");
+  colorAccent = getColorVariable("accent"),
+  colorDefault = getColorVariable("default"),
+  colorCard = getColorVariable("card"),
+  colorLabel = getColorVariable("label");
 
-// Declare renderChart
+// Declare renderChart method
 const renderChart = (options, id) => {
-  const chart = new ApexCharts(
-    document.querySelector(`#${id}`),
-    options
-  );
-  chart.render()
-}
+  let chart = new ApexCharts(document.querySelector(`#${id}`), options);
+  chart.render();
+
+  return chart;
+};
 
 // Declare Default Chart Options
 const defaultOptions = {
   chart: {
-    height: 136,
+    height: 166,
     width: "100%",
     toolbar: {
       show: false,
@@ -36,45 +34,69 @@ const defaultOptions = {
     enabled: true,
     fillSeriesColor: false,
     style: {
-      fontFamily: "Sora"
+      fontFamily: "Sora",
     },
   },
   legend: {
     show: false,
   },
-  dataLabels: {
+  selection: {
     enabled: false,
   },
   markers: {
     size: 0,
-    colors: colorPrimary,
+    colors: undefined,
     strokeColors: colorCard,
     strokeWidth: 2,
-    strokeOpacity: 0.5,
+    strokeOpacity: 0.3,
     strokeDashArray: 0,
     fillOpacity: 1,
-    discrete: [],
     shape: "circle",
-    radius: 2,
     hover: {
       size: undefined,
       sizeOffset: 6,
     },
   },
-  // states: {
-  //   hover: {
-  //     filter: {
-  //       type: "none",
-  //     },
-  //   },
-  // },
+  dataLabels: {
+    enabled: false,
+  },
+  states: {
+    hover: {
+      filter: {
+        type: "none",
+      },
+    },
+    active: {
+      filter: {
+        type: "none",
+      },
+    },
+  },
+};
+
+// Crosshair defaults
+const crosshairs = {
+  show: true,
+  stroke: {
+    color: "rgba(255, 255, 255, 0.25)",
+    width: 2,
+    dashArray: 3,
+  },
+  dropShadow: {
+    enabled: false,
+  },
+  fill: {
+    type: "solid",
+    color: "#B1B9C4",
+  },
+  position: "front",
 };
 
 // Create sparklines bar chart
 const sparklineBarOptions = {
   series: [
     {
-      data: [12, 24, 15, 47, 42, 15, 47, 75],
+      data: [12, 24, 15, 47, 20],
     },
   ],
   ...defaultOptions,
@@ -89,7 +111,7 @@ const sparklineBarOptions = {
   colors: [colorPrimary],
   plotOptions: {
     bar: {
-      columnWidth: "80%",
+      columnWidth: "60%",
     },
   },
   labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -98,9 +120,9 @@ const sparklineBarOptions = {
       width: 0,
     },
   },
-  tooltip: {
-    enabled: false,
-  },
+  // tooltip: {
+  //   enabled: false,
+  // },
   selection: {
     enabled: true,
   },
@@ -131,7 +153,7 @@ const radialBarOptions = {
         size: "60%",
       },
       track: {
-        background: "#363636"
+        background: "#363636",
       },
       dataLabels: {
         show: false,
@@ -146,11 +168,11 @@ const barChartOptions = {
   series: [
     {
       name: "Data 1",
-      data: [20, 21, 19, 40, 24, 28, 30, 50],
+      data: [24, 51, 32, 70, 65, 34, 89],
     },
     {
       name: "Data 2",
-      data: [12, 14, 9, 20, 12, 14, 15, 25],
+      data: [12, 24, 15, 47, 42, 15, 47],
     },
   ],
   ...defaultOptions,
@@ -164,22 +186,17 @@ const barChartOptions = {
       columnWidth: "50%",
     },
   },
-  dataLabels: {
-    enabled: false,
-  },
   grid: {
     strokeDashArray: 3,
     borderColor: "rgba(255, 255, 255, 0.05)",
-    padding: { left: 20, right: 20, top: -16, bottom: -12 },
+    padding: { left: 20, right: 20, top: -16, bottom: -8 },
   },
-  labels: [1, 2, 3, 4, 5, 6, 7, 8],
   yaxis: {
     show: false,
   },
   xaxis: {
-    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
     labels: {
-      floating: true,
       style: {
         fontFamily: "Sora",
         colors: colorLabel,
@@ -195,24 +212,18 @@ const barChartOptions = {
       show: false,
     },
   },
-  tooltip: {
-    enabled: true,
-  },
-  selection: {
-    enabled: true,
-  },
 };
-renderChart(barChartOptions, "barChart")
+renderChart(barChartOptions, "barChart");
 
 // Create gauge Chart
 const gaugeChartOptions = {
   series: [
     {
       name: "Using",
-      data: [0, 20, 0],
+      data: [0, 24, 0],
     },
     {
-      name: "Not Unsing",
+      name: "Not Using",
       data: [0, 12, 0],
     },
   ],
@@ -228,22 +239,17 @@ const gaugeChartOptions = {
       columnWidth: "85%",
     },
   },
-  dataLabels: {
-    enabled: false,
-  },
   grid: {
     strokeDashArray: 3,
     borderColor: "rgba(255, 255, 255, 0.05)",
-    padding: { left: 20, right: 20, top: -16, bottom: -12 },
+    padding: { left: 20, right: 20, top: -16, bottom: -8 },
   },
-  labels: [1, 2, 3, 4, 5, 6, 7, 8],
   yaxis: {
     show: false,
   },
   xaxis: {
     categories: [""],
     labels: {
-      floating: true,
       style: {
         fontFamily: "Sora",
         colors: colorLabel,
@@ -259,14 +265,8 @@ const gaugeChartOptions = {
       show: false,
     },
   },
-  tooltip: {
-    enabled: true,
-  },
-  selection: {
-    enabled: true,
-  },
 };
-renderChart(gaugeChartOptions, "gaugeChart")
+renderChart(gaugeChartOptions, "gaugeChart");
 
 // Create area chart
 const areaOptions = {
@@ -274,11 +274,11 @@ const areaOptions = {
   series: [
     {
       name: "Series 1",
-      data: [0, 0, 0, 60, 20, 60, 0, 0],
+      data: [20, 51, 15, 50, 26, 78, 38],
     },
     {
-      name: "Series 2",
-      data: [0, 10, 45, 20, 60, 20, 40, 0]
+      name: "Series 1",
+      data: [30, 20, 51, 15, 50, 26, 40],
     },
   ],
   chart: {
@@ -286,39 +286,45 @@ const areaOptions = {
     type: "area",
     height: 240,
   },
-  colors: [colorDefault, colorPrimary],
+  colors: [colorPrimary, colorDefault],
   fill: {
-    type: "solid",
-    opacity: 0.75,
+    type: "gradient",
+    gradient: {
+      type: "vertical",
+      stops: [0, 100],
+      colorStops: [
+        {
+          offset: 0,
+          color: "#fff",
+          opacity: 0.05,
+        },
+        ,
+        {
+          offset: 100,
+          color: "#fff",
+          opacity: 0,
+        },
+      ],
+    },
   },
   grid: {
     strokeDashArray: 3,
     borderColor: "rgba(255, 255, 255, 0.05)",
-    padding: { left: 20, right: 20, top: 0, bottom: -8 }
+    padding: { left: 20, right: 20, top: 0, bottom: -8 },
   },
   stroke: {
-    show: false,
-  },
-  markers: {
-    size: 0,
-    colors: undefined,
-    strokeColors: colorCard,
-    strokeWidth: 2,
-    strokeOpacity: 0.5,
-    strokeDashArray: 0,
-    fillOpacity: 1,
-    discrete: [],
-    shape: "circle",
-    radius: 2,
-    hover: {
-      size: undefined,
-      sizeOffset: 6,
-    },
+    show: true,
+    curve: "smooth",
+    lineCap: "butt",
+    colors: [colorPrimary, colorDefault],
+    width: 3,
+    dashArray: 0,
   },
   yaxis: {
+    min: 0,
     max: 100,
+    tickAmount: 5,
     labels: {
-      floating: true,
       style: {
         fontFamily: "Sora",
         colors: colorLabel,
@@ -335,16 +341,11 @@ const areaOptions = {
     axisTicks: {
       show: false,
     },
-    crosshairs: {
-      stroke: {
-        color: "rgba(255, 255, 255, 0.25)",
-        width: 1,
-        dashArray: 2,
-      },
-    },
+    crosshairs,
   },
 };
-renderChart(areaOptions, "areaChart")
+
+renderChart(areaOptions, "areaChart");
 
 // Create line Chart
 const lineOptions = {
@@ -352,51 +353,88 @@ const lineOptions = {
   series: [
     {
       name: "Series 1",
-      data: [20, 40, 24, 78, 26, 36, 28],
+      data: [40, 61, 45, 51, 36, 88, 48],
     },
   ],
   chart: {
     ...defaultOptions.chart,
-    type: "area",
+    type: "line",
     height: 240,
+    dropShadow: {
+      enabled: true,
+      top: 40,
+      left: 2,
+      blur: 3,
+      color: "#fff",
+      opacity: 0.015,
+    },
   },
-  colors: [colorDefault],
   fill: {
+    type: "gradient",
     gradient: {
-      type: "vertical",
-      stops: [0, 50, 100],
+      shadeIntensity: 1,
+      opacityFrom: 0.7,
+      opacityTo: 0.9,
       colorStops: [
         {
           offset: 0,
-          color: '#fff',
-          opacity: 0.05,
+          color: colorCard,
+          opacity: 1,
+        },
+        {
+          offset: 30,
+          color: colorPrimary,
+          opacity: 1,
+        },
+        {
+          offset: 70,
+          color: colorPrimary,
+          opacity: 1,
         },
         {
           offset: 100,
-          color: '#fff',
-          opacity: 0,
+          color: colorCard,
+          opacity: 1,
         },
-      ]
+      ],
     },
   },
+  markers: {
+    size: 0,
+    strokeWidth: 3,
+    strokeOpacity: 0.9,
+    hover: {
+      size: undefined,
+      sizeOffset: 8,
+    },
+    discrete: [
+      {
+        seriesIndex: 0,
+        dataPointIndex: 5,
+        fillColor: colorPrimary,
+        strokeColor: colorCard,
+        size: 8,
+        shape: "circle", // "circle" | "square" | "rect"
+      },
+    ],
+  },
+  colors: [colorPrimary, colorDefault],
   grid: {
     strokeDashArray: 3,
     borderColor: "rgba(255, 255, 255, 0.05)",
-    padding: { left: 20, right: 20, top: 0, bottom: -8 }
+    padding: { left: 20, right: 20, top: 0, bottom: -8 },
   },
   stroke: {
-    show: true,
-    curve: 'smooth',
-    lineCap: 'butt',
-    colors: undefined,
+    lineCap: "round",
+    curve: "smooth",
     width: 3,
     dashArray: 0,
   },
   yaxis: {
     min: 0,
     max: 100,
+    tickAmount: 5,
     labels: {
-      floating: true,
       style: {
         fontFamily: "Sora",
         colors: colorLabel,
@@ -413,13 +451,62 @@ const lineOptions = {
     axisTicks: {
       show: false,
     },
-    crosshairs: {
-      stroke: {
-        color: "rgba(255, 255, 255, 0.25)",
-        width: 1,
-        dashArray: 2,
-      },
-    },
+    crosshairs,
   },
 };
-renderChart(lineOptions, "lineChart")
+
+const lineChartRef = renderChart(lineOptions, "lineChart");
+
+const selectLineYear = (element, year) => {
+  const buttons = document.querySelectorAll(
+    ".card-line-chart .card-header button"
+  );
+
+  buttons.forEach((button) => {
+    button.classList.remove("active");
+  });
+
+  element.classList.add("active");
+
+  let data;
+  if (year === 2022) {
+    data = [40, 61, 45, 51, 36, 88, 48];
+  } else {
+    data = [40, 34, 54, 31, 44, 26, 79];
+  }
+
+  lineChartRef.updateSeries([
+    {
+      data,
+    },
+  ]);
+};
+
+// GSAP Animations
+const cards = gsap.utils.toArray(".card");
+
+cards.forEach((card) => {
+  const animation = gsap.fromTo(
+    card,
+    {
+      autoAlpha: 0,
+      y: 100,
+      x: -100,
+      rotate: -10,
+    },
+    {
+      duration: 0.6,
+      autoAlpha: 1,
+      y: 0,
+      x: 0,
+      rotate: 0,
+    }
+  );
+
+  console.log("ScrollTrigger", ScrollTrigger);
+
+  ScrollTrigger.create({
+    trigger: card,
+    animation,
+  });
+});
