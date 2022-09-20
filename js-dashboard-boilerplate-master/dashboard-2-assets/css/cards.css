@@ -38,3 +38,63 @@
 .card-map-2 {
   grid-area: map-2;
 }
+
+.card-leaflet-map {
+  grid-area: leaflet-map;
+}
+
+.card-leaflet-h3 {
+  text-align: left;
+}
+/*
+.card-leaflet-row {
+  display: flex;
+  align-items: center;
+}
+
+.card-leaflet-bars {
+
+}
+
+.card-leaflet-bar-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.card-leaflet-bar-icon {
+  display: grid;
+  place-items: center;
+  color: white;
+}
+
+.card-leaflet-bar-row.primary .card-leaflet-bar-icon
+.card-leaflet-bar-row.primary .card-leaflet-bar-bubble {
+  background: var(--color-primary);
+}
+
+.card-leaflet-bar-row.accent .card-leaflet-bar-icon
+.card-leaflet-bar-row.accent .card-leaflet-bar-blubble {
+  background: var(--color-accent);
+}
+
+.card-leaflet-bar-row.default .card-leaflet-bar-icon
+.card-leaflet-bar-row.accent .card-leaflet-bar-blubble {
+  background: var(--color-default);
+}
+
+.card-leaflet-bar-rail {
+  position: relative;
+  width: 10rem;
+  height: 1rem;
+  border-radius: 0.5rem;
+  background: var(--color-grey);
+}
+
+.card-leaflet-bar-bubble {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 1rem;
+  border-radius: inherit;
+} */

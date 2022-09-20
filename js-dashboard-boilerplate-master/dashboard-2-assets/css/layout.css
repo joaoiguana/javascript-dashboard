@@ -3,7 +3,8 @@
     "headline1 headline2"
     "list list"
     "line-chart line-chart"
-    "line-chart-2 line-chart-2";
+    "line-chart-2 line-chart-2"
+    "leaflet-map leaflet-map";
 }
 
 @media only screen and (min-width: 600px) {
@@ -12,7 +13,8 @@
       "headline1 headline2"
       "list list"
       "line-chart line-chart"
-      "line-chart-2 line-chart-2";
+      "line-chart-2 line-chart-2"
+      "leaflet-map leaflet-map";
   }
 }
 
@@ -20,6 +22,7 @@
   .container {
     grid-template-areas:
       "headline1 headline2 list list"
-      "line-chart line-chart line-chart-2 line-chart-2";
+      "line-chart line-chart line-chart-2 line-chart-2"
+      "leaflet-map leaflet-map leaflet-map leaflet-map";
   }
 }

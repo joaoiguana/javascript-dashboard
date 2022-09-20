@@ -1,6 +1,7 @@
-#map1,
+#leafletMap,
 #map2 {
   height: 420px;
+  /* transform: scale(1.1); */
 }
 
 .leaflet-container {
@@ -32,7 +33,7 @@
   border-radius: 50%;
 }
 
-#map1 .leaflet-marker-div {
+#leafletMap .leaflet-marker-div {
   background: var(--color-primary);
 }
 
@@ -68,7 +69,7 @@
   animation: pulse 3s 3s infinite linear;
 }
 
-#map1 .leaflet-marker-div::before {
+#leafletMap .leaflet-marker-div::before {
   border-color: var(--color-primary);
 }
 
