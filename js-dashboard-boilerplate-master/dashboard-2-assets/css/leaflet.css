@@ -1,7 +1,6 @@
 #leafletMap,
 #map2 {
-  height: 420px;
-  /* transform: scale(1.1); */
+  height: 260px;
 }
 
 .leaflet-container {
