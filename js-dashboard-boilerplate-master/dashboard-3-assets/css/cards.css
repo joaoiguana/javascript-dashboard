@@ -274,10 +274,22 @@
   color: var(--color-primary-text);
 }
 
+.card-radial-bar-chart .select-wrapper {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  background: var(--color-grey);
+  display: grid;
+  place-items: center;
+  height: 2rem;
+  padding: 0 1rem;
+  border-radius: 1rem;
+}
+
 .card-radial-bar-chart select {
   background: transparent;
   color: var(--color-label);
   border: 0;
+  width: 100%;
 }
 
 /* Paged Table Card */

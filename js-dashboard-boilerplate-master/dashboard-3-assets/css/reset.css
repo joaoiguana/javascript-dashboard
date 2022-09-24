@@ -12,8 +12,8 @@
   --color-label: #a1a1a1;
   --color-disabled: #cccccc;
 
-  --color-chart-shade-0: "red";
-  --color-chart-shade-1: "blue";
+  --color-chart-shade-0: rgba(114, 57, 234, 0.2);
+  --color-chart-shade-1: rgba(114, 57, 234, 0);
 }
 
 [data-dark-mode="true"] {

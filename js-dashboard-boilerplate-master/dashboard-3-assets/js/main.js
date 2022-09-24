@@ -2,9 +2,14 @@
 const $ = (selector) => document.querySelector(selector);
 
 // Load Dark Mode Settings
-let isDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+let isDarkMode = localStorage.getItem("js_dashboard_dark_mode")
+  ? localStorage.getItem("js_dashboard_dark_mode") === "true"
+  : window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 $("html").setAttribute("data-dark-mode", isDarkMode.toString());
+
+// Data variables
+let topProducts = [];
 
 // Get Colors From CSS Variables
 const getColorVariable = (color) =>
@@ -21,62 +26,6 @@ let colorPrimary = getColorVariable("primary"),
   colorLabel = getColorVariable("label"),
   colorChartShade0 = getColorVariable("chart-shade-0"),
   colorChartShade1 = getColorVariable("chart-shade-1");
-
-// Create chart
-const createChart = (selector, options) => {
-  const ctx = document.getElementById(selector).getContext("2d");
-  const chart = new Chart(ctx, options);
-  return [ctx, chart];
-}
-
-// Abbreviate long number function
-const abbreviateLongNumber = n => {
-  if (n < 1e3) return n;
-  if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(2) + "K";
-  if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(1) + "M";
-  if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + "B";
-  if (n >= 1e12) return +(n / 1e12).toFixed(1) + "T";
-};
-
-// Get Data From API
-const category = "beverages";
-const country = "pt";
-
-const getWorldProducts = async () => {
-  try {
-    const res = await fetch(
-      `https://world.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=${category}&json=true&sort_by=additives_n&page_size=6`
-    );
-    const data = await res.json();
-
-    const { count } = data;
-
-    $("#totalProducts").innerHTML = abbreviateLongNumber(count);
-    $("#preloader").classList.remove("drinks-loading");
-  } catch(error) {
-    console.log("error", error);
-  }
-};
-
-getWorldProducts();
-
-const getPTProducts = async () => {
-  try {
-    const res = await fetch(
-      `https://${country}.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=${category}&json=true&sort_by=additives_n&page_size=6`
-    );
-    const data = await res.json();
-
-    const { count } = data;
-
-    $("#totalAdditives").innerHTML = abbreviateLongNumber(count);
-    $("#preloader").classList.remove("drinks-loading");
-  } catch(error) {
-    console.log("error", error);
-  }
-};
-
-getPTProducts();
 
 // Chart default options
 const defaultOptions = {
@@ -124,63 +73,201 @@ const defaultOptions = {
   },
 };
 
+// Create chart
+const createChart = (selector, options) => {
+  const ctx = document.getElementById(selector).getContext("2d");
+  const chart = new Chart(ctx, options);
+  return [ctx, chart];
+}
+
+// Abbreviate long number function
+const abbreviateLongNumber = n => {
+  if (n < 1e3) return n;
+  if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(2) + "K";
+  if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(1) + "M";
+  if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + "B";
+  if (n >= 1e12) return +(n / 1e12).toFixed(1) + "T";
+};
+
 // Bar Figure Chart
+const buildBarChart = () => {
 
-const barRes = axios
-  .get(`https://${country}.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=${category}&json=true&sort_by=additives_n&page_size=6`, {
-  })
-  .then(function (response) {
-    const { data } = response;
-    const { products } = data;
+  const labels = topProducts.map((product) => product.brands);
 
-    const labels = products.map((product) => product.brands);
+  const barData1 = [],
+    barData2 = [];
 
-    const barData1 = [],
-      barData2 = [];
+  topProducts.forEach(product => {
+    const additives = product.additives_n,
+      ingredients = product.ingredients.length;
 
-    products.forEach(product => {
-      const additives = product.additives_n,
-        ingredients = product.ingredients.length;
-
-      barData1.push(additives);
-      barData2.push(ingredients);
-    });
-
-    const barOptions = {
-      ...defaultOptions,
-      data: {
-        ...defaultOptions.data,
-        labels,
-        datasets: [
-          {
-            label: 'Additives',
-            data: barData1,
-            backgroundColor: ["#885ce6"],
-            hoverBackgroundColor: ["#885ce6"],
-            borderColor: ["#885ce6"],
-            borderWidth: 0,
-            barThickness: 12,
-            borderRadius: 6,
-          },
-          {
-            label: 'Ingredients',
-            data: barData2,
-            backgroundColor: ["#ffffff"],
-            hoverBackgroundColor: ["#ffffff"],
-            borderColor: ["#ffffff"],
-            borderWidth: 0,
-            barThickness: 12,
-            borderRadius: 6,
-          },
-        ],
-      },
-    };
-
-    createChart("figureBarChart", barOptions);
-  })
-  .catch(function (error) {
-    console.log(error);
+    barData1.push(additives);
+    barData2.push(ingredients);
   });
+
+  const barOptions = {
+    ...defaultOptions,
+    data: {
+      ...defaultOptions.data,
+      labels,
+      datasets: [
+        {
+          label: 'Additives',
+          data: barData1,
+          backgroundColor: ["#885ce6"],
+          hoverBackgroundColor: ["#885ce6"],
+          borderColor: ["#885ce6"],
+          borderWidth: 0,
+          barThickness: 12,
+          borderRadius: 6,
+        },
+        {
+          label: 'Ingredients',
+          data: barData2,
+          backgroundColor: ["#ffffff"],
+          hoverBackgroundColor: ["#ffffff"],
+          borderColor: ["#ffffff"],
+          borderWidth: 0,
+          barThickness: 12,
+          borderRadius: 6,
+        },
+      ],
+    },
+  };
+
+  createChart("figureBarChart", barOptions);
+};
+
+// Get Radial bar select items
+const radialBarOptions = {
+  ...defaultOptions,
+  type: "doughnut",
+  data: {
+    labels: ["Additives", ""],
+    datasets: [
+      {
+        label: "",
+        data: [33, 66],
+        backgroundColor: [colorPrimary, colorGrey],
+        hoverBackgroundColor: [colorPrimary, colorGrey],
+        borderColor: "transparent",
+        borderWidth: 0,
+        borderRadius: 6,
+      },
+    ],
+  },
+  options: {
+    ...defaultOptions.options,
+    cutout: 40,
+    plugins: {
+      ...defaultOptions.options.plugins,
+      tooltip: {
+        ...defaultOptions.options.plugins.tooltip,
+        filter: ({ dataIndex }) => dataIndex === 0,
+      }
+    },
+  },
+};
+
+const [radialBarCtx, radialBarChart] = createChart("radialBarChart", radialBarOptions);
+
+const selectProduct = id => {
+  const product = topProducts.find(p => p.id === id);
+
+  radialBarChart.data.datasets[0].data = [product.additives_n, 5];
+  radialBarChart.update();
+
+  const facts = [
+    `${product.additives_n} additive(s)`,
+    `${product.categories_tags.length} tag(s)`,
+    `${product.ingredients_n} ingredient(s)`,
+    `${(product.completeness * 100).toFixed(1)}%`,
+  ];
+
+  let html = "";
+
+  facts.forEach(fact => {
+    html += `
+      <span class="card-radial-bar-chart-features-icon uil uil-angle-right"></span>
+      <span class="card-radial-bar-chart-features-text">${fact}</span>
+    `;
+  });
+
+  $("#factsGrid").innerHTML = html;
+};
+
+const createRadialBarSelect = () => {
+  const selectedProduct = topProducts[0];
+  selectProduct(selectedProduct.id);
+
+  let html = "";
+
+  topProducts.forEach(product => {
+    html += `
+      <option value="${product.id}">
+        ${product.product_name || "Unkown"}
+      </option>
+    `
+  });
+
+  $("#productSelect").innerHTML = html;
+};
+
+// Get Data From API
+const category = "beverages";
+const country = "pt";
+
+const getWorldProducts = async () => {
+  try {
+    const res = await fetch(
+      `https://world.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=${category}&json=true&sort_by=additives_n&page_size=6`
+    );
+    const data = await res.json();
+
+    const { count } = data;
+
+    $("#totalProducts").innerHTML = abbreviateLongNumber(count);
+    $("#preloader").classList.remove("drinks-loading");
+  } catch(error) {
+    console.log("error", error);
+  }
+};
+
+getWorldProducts();
+
+const getPTProducts = async () => {
+  try {
+    const res = await fetch(
+      `https://${country}.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=${category}&json=true&sort_by=additives_n&page_size=6`
+    );
+    const data = await res.json();
+
+    const { count } = data;
+
+    $("#totalAdditives").innerHTML = abbreviateLongNumber(count);
+    $("#preloader").classList.remove("drinks-loading");
+  } catch(error) {
+    console.log("error", error);
+  }
+};
+
+getPTProducts();
+
+const getTopProducts = async () => {
+  const res = await axios.get(`https://${country}.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=${category}&json=true&sort_by=additives_n&page_size=6`
+  );
+
+  const { data } = res;
+  const { products } = data;
+
+  topProducts = products;
+
+  buildBarChart();
+  createRadialBarSelect();
+};
+
+getTopProducts();
+
 
 // Area Table Chart
 const data2022 = [
@@ -267,16 +354,24 @@ const selectYear = (element, year) => {
   areaChart.update();
 };
 
-// Get paged table
-
 // Radial Bar Card
 
+
+// Get paged table
+
+
 // Dark Mode Toggle
-const toggleDarkMode = () => {
+const toggleDarkMode = (element) => {
   if (!isDarkMode) {
+    element.classList.remove("uil-moon");
+    element.classList.add("uil-sun");
     $("html").setAttribute("data-dark-mode", "true");
+    localStorage.setItem("js_dashboard_dark_mode", "true");
   } else {
+    element.classList.remove("uil-sun");
+    element.classList.add("uil-moon");
     $("html").setAttribute("data-dark-mode", "false");
+    localStorage.setItem("js_dashboard_dark_mode", "false");
   }
 
   areaChart.options.scales.y.grid.color = getColorVariable("border");

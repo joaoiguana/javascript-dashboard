@@ -51,7 +51,7 @@
     <div id="preloader" class="preloader drinks-loading">
       <div class="spinner"></div>
     </div>
-    <button type="button" onclick="toggleDarkMode()" class="dark-mode-toggle uil uil-moon"></button>
+    <button type="button" onclick="toggleDarkMode(this)" class="dark-mode-toggle uil uil-moon"></button>
     <div class="container">
       <div class="card card-headline card-headline1">
         <div>
@@ -135,13 +135,13 @@
         </div>
       </div>
       <div class="card card-radial-bar-chart">
-        <header class="card-header">
           <h2 class="card-h2 no-margin">Product Focus</h2>
-          <select
-            id="productSelect"
-            onchange="selectProduct(this.value)"
-          ></select>
-        </header>
+          <div class="select-wrapper">
+            <select
+              id="productSelect"
+              onchange="selectProduct(this.value)"
+            ></select>
+          </div>
         <div class="card-radial-bar-chart-row">
           <div class="card-radial-bar-chart-wrapper">
             <div class="card-radial-bar-rail"></div>
