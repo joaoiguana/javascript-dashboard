@@ -51,7 +51,7 @@
     <div id="preloader" class="preloader drinks-loading">
       <div class="spinner"></div>
     </div>
-    <button class="dark-mode-toggle uil uil-moon"></button>
+    <button type="button" onclick="toggleDarkMode()" class="dark-mode-toggle uil uil-moon"></button>
     <div class="container">
       <div class="card card-headline card-headline1">
         <div>
@@ -103,8 +103,8 @@
               <h3 class="card-h3">Select sales by year</h3>
             </div>
             <div>
-              <button type="button">2021</button>
-              <button class="active" type="button">2022</button>
+              <button onclick="selectYear(this, 2021)" type="button">2021</button>
+              <button onclick="selectYear(this, 2022)" class="active" type="button">2022</button>
             </div>
           </header>
           <canvas id="areaTableChart" width="400" height="220"></canvas>

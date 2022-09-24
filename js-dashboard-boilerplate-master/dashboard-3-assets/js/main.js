@@ -1,4 +1,10 @@
+// Create Jquery style selector function
+const $ = (selector) => document.querySelector(selector);
+
 // Load Dark Mode Settings
+let isDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+$("html").setAttribute("data-dark-mode", isDarkMode.toString());
 
 // Get Colors From CSS Variables
 const getColorVariable = (color) =>
@@ -6,16 +12,15 @@ const getColorVariable = (color) =>
     .getPropertyValue(`--color-${color}`)
     .trim();
 
-const colorPrimary = getColorVariable("primary"),
+let colorPrimary = getColorVariable("primary"),
   colorAccent = getColorVariable("accent"),
   colorDefault = getColorVariable("default"),
   colorCard = getColorVariable("card"),
   colorBorder = getColorVariable("border"),
   colorGrey = getColorVariable("grey"),
-  colorLabel = getColorVariable("label");
-
-// Create Jquery style selector function
-const $ = (selector) => document.querySelector(selector);
+  colorLabel = getColorVariable("label"),
+  colorChartShade0 = getColorVariable("chart-shade-0"),
+  colorChartShade1 = getColorVariable("chart-shade-1");
 
 // Create chart
 const createChart = (selector, options) => {
@@ -84,6 +89,11 @@ const defaultOptions = {
       },
       tooltip: {
         usePointStyle: true,
+        callback: {
+          labelPointStyle: () => ({
+            pointStyle: "circle"
+          }),
+        },
         caretSize: 0,
         padding: 12,
         titleFont: {
@@ -227,7 +237,7 @@ const areaTableOptions = {
           drawTicks: true,
           color: colorBorder,
           borderColor: "transparent",
-          borderDash: [5,5],
+          borderDash: [5, 5],
           borderDashOffset: 2,
           tickColor: "transparent",
         }
@@ -245,8 +255,32 @@ gradient.addColorStop(0.8, "rgba(0,0,0,0)");
 areaChart.data.datasets[0].backgroundColor = gradient;
 areaChart.update();
 
+const selectYear = (element, year) => {
+  const buttons = document.querySelectorAll(".card-header button");
+
+  buttons.forEach(button => {
+    button.classList.remove("active");
+  });
+  element.classList.add("active");
+
+  areaChart.data.datasets[0].data = year === 2022 ? data2022 : data2021;
+  areaChart.update();
+};
+
 // Get paged table
 
 // Radial Bar Card
 
 // Dark Mode Toggle
+const toggleDarkMode = () => {
+  if (!isDarkMode) {
+    $("html").setAttribute("data-dark-mode", "true");
+  } else {
+    $("html").setAttribute("data-dark-mode", "false");
+  }
+
+  areaChart.options.scales.y.grid.color = getColorVariable("border");
+  areaChart.update();
+
+  isDarkMode = !isDarkMode;
+};
