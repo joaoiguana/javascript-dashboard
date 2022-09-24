@@ -2,7 +2,7 @@
   grid-template-areas:
     "headline1 headline2"
     "list list"
-    "line-chart line-chart"
+    "line-chart-1 line-chart-1"
     "line-chart-2 line-chart-2"
     "leaflet-map leaflet-map";
 }
@@ -12,7 +12,7 @@
     grid-template-areas:
       "headline1 headline2"
       "list list"
-      "line-chart line-chart"
+      "line-chart-1 line-chart-1"
       "line-chart-2 line-chart-2"
       "leaflet-map leaflet-map";
   }
@@ -22,7 +22,7 @@
   .container {
     grid-template-areas:
       "headline1 headline2 list list"
-      "line-chart line-chart line-chart-2 line-chart-2"
+      "line-chart-1 line-chart-1 line-chart-2 line-chart-2"
       "leaflet-map leaflet-map leaflet-map leaflet-map";
   }
 }

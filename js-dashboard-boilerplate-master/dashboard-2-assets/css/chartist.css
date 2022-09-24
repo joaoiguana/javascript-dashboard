@@ -14,7 +14,7 @@
 }
 
 .ct-label {
-  color: rgba(255,255,255, 0.45);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .ct-line-marker {
@@ -41,9 +41,8 @@
   stroke-width: 2;
 }
 
-.line-chart .ct-series .ct-line {
+.line-chart-1 .ct-series .ct-line {
   stroke: url(#lineGradient1);
-  /* stroke: var(--color-primary) */
 }
 
 .line-chart-2 .ct-series .ct-line {

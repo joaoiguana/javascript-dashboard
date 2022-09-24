@@ -13,12 +13,12 @@ const colorPrimary = getColorVariable("primary"),
 // Create chartist line chart
 const lineChartData = {
   series: [[0, 10, 4, 13, 10, 25, 10, 12, 0]],
-  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
 };
 
 const lineChart2Data = {
-  series: [[0, 10, 4, 42, 10, 25, 10, 12, 0]],
-  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
+  series: [[0, 10, 4, 32, 10, 25, 10, 12, 0]],
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
 };
 
 const lineChartOptions = {
@@ -43,16 +43,13 @@ const lineChartOptions = {
   },
 };
 
-const chartColors = [
-  colorPrimary,
-  colorAccent
-]
+const chartColors = [colorPrimary, colorAccent];
 
-const handleCreate = (ctx, index) => {
+const handleCreated = (ctx, index) => {
   const color = chartColors[index - 1];
-  const defs = ctx.svg.elem("defs")
+  const defs = ctx.svg.elem("defs");
 
-  //area gradient
+  // area gradient
   defs
     .elem("linearGradient", {
       id: "areaGradient",
@@ -72,30 +69,29 @@ const handleCreate = (ctx, index) => {
     })
     .parent();
 
-    //gird gradient
+  // grid gradient
   defs
-  .elem("linearGradient", {
-    id: "gridGradient",
-    gradientUnits: "userSpaceOnUse",
-    x1: 0,
-    y1: 0,
-    x2: 1,
-    y2: 240,
-  })
-  .elem("stop", {
-    offset: 0,
-    "stop-color": "rgba(255, 255, 255, 0)",
-  })
-  .parent()
-  .elem("stop", {
-    offset: 1,
-    "stop-color": "rgba(255, 255, 255, 0.1)",
-  })
-  .parent();
+    .elem("linearGradient", {
+      id: "gridGradient",
+      gradientUnits: "userSpaceOnUse",
+      x1: 0,
+      y1: 0,
+      x2: 1,
+      y2: 240,
+    })
+    .elem("stop", {
+      offset: 0.4,
+      "stop-color": "rgba(255, 255, 255, 0)",
+    })
+    .parent()
+    .elem("stop", {
+      offset: 1,
+      "stop-color": "rgba(255, 255, 255, 0.1)",
+    })
+    .parent();
 
-
-    //line gradient
-    defs
+  // line gradient
+  defs
     .elem("linearGradient", {
       id: "lineGradient" + index,
       x1: 0,
@@ -126,27 +122,37 @@ const handleCreate = (ctx, index) => {
 };
 
 const lineChart1 = new Chartist.Line(
-  ".line-chart",
+  ".line-chart-1",
   lineChartData,
-  lineChartOptions,
+  lineChartOptions
 );
-
-lineChart1.on("created", (ctx) => handleCreate(ctx, 1))
+lineChart1.on("created", (ctx) => handleCreated(ctx, 1));
 
 const lineChart2 = new Chartist.Line(
   ".line-chart-2",
   lineChart2Data,
-  lineChartOptions,
+  lineChartOptions
 );
+lineChart2.on("created", (ctx) => handleCreated(ctx, 2));
 
-lineChart2.on("created", (ctx) => handleCreate(ctx, 2))
+// Anime animation test
+const animatedDivs = [
+  "card-headline1",
+  "card-headline2",
+  "card-list",
+  "card-line-chart-1",
+  "card-line-chart-2",
+];
 
-// Add event handle to draw point
-
-// Add event handle to draw gradients
-
-// Initialise line chart
-
-// Initialise line chart
-
-// Create Maps
+animatedDivs.forEach((div, index) => {
+  anime({
+    targets: `.${div}`,
+    keyframes: [
+      { opacity: 0, translateY: 50 },
+      { opacity: 1, translateY: 0 },
+    ],
+    duration: 500,
+    delay: index === 0 ? 0 : index * 75,
+    easing: "linear",
+  });
+});

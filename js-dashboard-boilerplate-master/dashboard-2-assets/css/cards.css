@@ -1,3 +1,13 @@
+/* Anime Animation Resets */
+.card-headline1,
+.card-headline2,
+.card-list,
+.card-line-chart-1,
+.card-line-chart-2 {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
 .card-headline1 {
   grid-area: headline1;
 }
@@ -10,8 +20,8 @@
   grid-area: list;
 }
 
-.card-line-chart {
-  grid-area: line-chart;
+.card-line-chart-1 {
+  grid-area: line-chart-1;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -26,19 +36,12 @@
   padding: 2rem 0;
 }
 
-.card-line-chart .card-h3,
+.card-line-chart-1 .card-h3,
 .card-line-chart-2 .card-h3 {
   margin-bottom: var(--length-lg1);
 }
 
-.card-map-1 {
-  grid-area: map-1;
-}
-
-.card-map-2 {
-  grid-area: map-2;
-}
-
+/* Leaflet map */
 .card-leaflet-map {
   grid-area: leaflet-map;
 }
@@ -46,9 +49,6 @@
 .card-leaflet-h3 {
   text-align: left;
 }
-
-/* Added CSS */
-
 
 .card-leaflet-row {
   display: flex;
@@ -71,7 +71,6 @@
 
 @media only screen and (min-width: 800px) {
   .card-leaflet-bars {
-    flex-direction: row;
     width: auto;
   }
 }
@@ -80,9 +79,8 @@
   position: relative;
   overflow: hidden;
   max-height: 260px;
-  width: 500px;
+  width: 400px;
 }
-
 
 .card-leaflet-bar-row {
   display: flex;
@@ -96,8 +94,8 @@
   place-items: center;
   width: 2.5rem;
   height: 2.5rem;
-  color: white;
   border-radius: 0.25rem;
+  color: white;
 }
 
 .card-leaflet-bar-label {
