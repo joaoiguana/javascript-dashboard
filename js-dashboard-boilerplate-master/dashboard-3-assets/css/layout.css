@@ -42,7 +42,7 @@
   transition: all 0.5s;
 }
 
-.preloader.totals-loading,
+.preloader.radial-bar-loading,
 .preloader.drinks-loading {
   opacity: 1;
   visibility: visible;

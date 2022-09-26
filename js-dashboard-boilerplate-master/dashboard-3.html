@@ -31,6 +31,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
     <link
       rel="stylesheet"
       type="text/css"
@@ -48,7 +50,7 @@
     />
   </head>
   <body data-theme="dark">
-    <div id="preloader" class="preloader drinks-loading">
+    <div id="preloader" class="preloader drinks-loading radial-bar-loading">
       <div class="spinner"></div>
     </div>
     <button type="button" onclick="toggleDarkMode(this)" class="dark-mode-toggle uil uil-moon"></button>
@@ -134,7 +136,7 @@
           </table>
         </div>
       </div>
-      <div class="card card-radial-bar-chart">
+      <div class="card card-radial-bar-chart" data-aos="fade-up-right">
           <h2 class="card-h2 no-margin">Product Focus</h2>
           <div class="select-wrapper">
             <select
@@ -162,7 +164,7 @@
           <button class="card-radial-bar-chart-button primary">Action</button>
         </div>
       </div>
-      <div class="card card-paged-table">
+      <div class="card card-paged-table" data-aos="fade-up-right">
         <div class="card-paged-table-header">
           <div>
             <h2 class="card-h2">All Drinks</h2>
@@ -182,5 +184,9 @@
       </div>
     </div>
     <script src="dashboard-3-assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
   </body>
 </html>
