@@ -176,7 +176,7 @@ const selectProduct = id => {
   const product = topProducts.find(p => p.id === id);
 
   radialBarChart.data.datasets[0].data = [product.additives_n, 5];
-  radialBarChart.update();
+  radialBarChart.update("none");
 
   $("#preloader").classList.remove("radial-bar-loading");
 
