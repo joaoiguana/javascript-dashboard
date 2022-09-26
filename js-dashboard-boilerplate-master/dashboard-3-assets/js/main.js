@@ -427,7 +427,7 @@ const getPageTable = async (newPage = page) => {
       <tr>
         <td width="3rem">
           <img src="${
-            product.image_front_small_url || "../../shared-assets/images/placeholder.jpeg"
+            product.image_front_small_url || "shared-assets/images/placeholder.png"
           }" />
         </td>
         <td width="20px">
